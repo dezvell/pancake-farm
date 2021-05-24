@@ -1204,22 +1204,22 @@ contract SyrupBar is BEP20('SyrupBar Token', 'SYRUP') {
     }
 
     // The DEZ TOKEN!
-    DezToken public cake;
+    DezToken public dez;
 
 
     constructor(
         DezToken _cake
     ) public {
-        cake = _cake;
+        dez = _cake;
     }
 
-    // Safe cake transfer function, just in case if rounding error causes pool to not have enough CAKEs.
+    // Safe dez transfer function, just in case if rounding error causes pool to not have enough CAKEs.
     function safeCakeTransfer(address _to, uint256 _amount) public onlyOwner {
-        uint256 cakeBal = cake.balanceOf(address(this));
+        uint256 cakeBal = dez.balanceOf(address(this));
         if (_amount > cakeBal) {
-            cake.transfer(_to, cakeBal);
+            dez.transfer(_to, cakeBal);
         } else {
-            cake.transfer(_to, _amount);
+            dez.transfer(_to, _amount);
         }
     }
 
@@ -1505,14 +1505,14 @@ contract MasterChef is Ownable {
     }
 
     // The DEZ TOKEN!
-    DezToken public cake;
+    DezToken public dez;
     // The SYRUP TOKEN!
     SyrupBar public syrup;
     // Dev address.
     address public devaddr;
     // DEZ tokens created per block.
     uint256 public cakePerBlock;
-    // Bonus muliplier for early cake makers.
+    // Bonus muliplier for early dez makers.
     uint256 public BONUS_MULTIPLIER = 1;
     // The migrator contract. It has a lot of power. Can only be set through governance (owner).
     IMigratorChef public migrator;
@@ -1537,7 +1537,7 @@ contract MasterChef is Ownable {
         uint256 _cakePerBlock,
         uint256 _startBlock
     ) public {
-        cake = _cake;
+        dez = _cake;
         syrup = _syrup;
         devaddr = _devaddr;
         cakePerBlock = _cakePerBlock;
@@ -1664,8 +1664,8 @@ contract MasterChef is Ownable {
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 cakeReward = multiplier.mul(cakePerBlock).mul(pool.allocPoint).div(totalAllocPoint);
-        cake.mint(devaddr, cakeReward.div(10));
-        cake.mint(address(syrup), cakeReward);
+        dez.mint(devaddr, cakeReward.div(10));
+        dez.mint(address(syrup), cakeReward);
         pool.accCakePerShare = pool.accCakePerShare.add(cakeReward.mul(1e12).div(lpSupply));
         pool.lastRewardBlock = block.number;
     }
@@ -1764,7 +1764,7 @@ contract MasterChef is Ownable {
         user.rewardDebt = 0;
     }
 
-    // Safe cake transfer function, just in case if rounding error causes pool to not have enough CAKEs.
+    // Safe dez transfer function, just in case if rounding error causes pool to not have enough CAKEs.
     function safeCakeTransfer(address _to, uint256 _amount) internal {
         syrup.safeCakeTransfer(_to, _amount);
     }
