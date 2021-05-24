@@ -1130,7 +1130,7 @@ contract DezToken is BEP20('Dezvell Token', 'Dez') {
         internal
     {
         address currentDelegate = _delegates[delegator];
-        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying CAKEs (not scaled);
+        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying DEZs (not scaled);
         _delegates[delegator] = delegatee;
 
         emit DelegateChanged(delegator, currentDelegate, delegatee);
@@ -1213,7 +1213,7 @@ contract SyrupBar is BEP20('SyrupBar Token', 'SYRUP') {
         dez = _dez;
     }
 
-    // Safe dez transfer function, just in case if rounding error causes pool to not have enough CAKEs.
+    // Safe dez transfer function, just in case if rounding error causes pool to not have enough DEZs.
     function safeDezTransfer(address _to, uint256 _amount) public onlyOwner {
         uint256 dezBal = dez.balanceOf(address(this));
         if (_amount > dezBal) {
@@ -1394,7 +1394,7 @@ contract SyrupBar is BEP20('SyrupBar Token', 'SYRUP') {
         internal
     {
         address currentDelegate = _delegates[delegator];
-        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying CAKEs (not scaled);
+        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying DEZs (not scaled);
         _delegates[delegator] = delegatee;
 
         emit DelegateChanged(delegator, currentDelegate, delegatee);
@@ -1484,7 +1484,7 @@ contract MasterChef is Ownable {
         uint256 amount;     // How many LP tokens the user has provided.
         uint256 rewardDebt; // Reward debt. See explanation below.
         //
-        // We do some fancy math here. Basically, any point in time, the amount of CAKEs
+        // We do some fancy math here. Basically, any point in time, the amount of DEZs
         // entitled to a user but is pending to be distributed is:
         //
         //   pending reward = (user.amount * pool.accDezPerShare) - user.rewardDebt
@@ -1499,9 +1499,9 @@ contract MasterChef is Ownable {
     // Info of each pool.
     struct PoolInfo {
         IBEP20 lpToken;           // Address of LP token contract.
-        uint256 allocPoint;       // How many allocation points assigned to this pool. CAKEs to distribute per block.
-        uint256 lastRewardBlock;  // Last block number that CAKEs distribution occurs.
-        uint256 accDezPerShare; // Accumulated CAKEs per share, times 1e12. See below.
+        uint256 allocPoint;       // How many allocation points assigned to this pool. DEZs to distribute per block.
+        uint256 lastRewardBlock;  // Last block number that DEZs distribution occurs.
+        uint256 accDezPerShare; // Accumulated DEZs per share, times 1e12. See below.
     }
 
     // The DEZ TOKEN!
@@ -1628,7 +1628,7 @@ contract MasterChef is Ownable {
         return _to.sub(_from).mul(BONUS_MULTIPLIER);
     }
 
-    // View function to see pending CAKEs on frontend.
+    // View function to see pending DEZs on frontend.
     function pendingDez(uint256 _pid, address _user) external view returns (uint256) {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][_user];
@@ -1764,7 +1764,7 @@ contract MasterChef is Ownable {
         user.rewardDebt = 0;
     }
 
-    // Safe dez transfer function, just in case if rounding error causes pool to not have enough CAKEs.
+    // Safe dez transfer function, just in case if rounding error causes pool to not have enough DEZs.
     function safeDezTransfer(address _to, uint256 _amount) internal {
         syrup.safeDezTransfer(_to, _amount);
     }
